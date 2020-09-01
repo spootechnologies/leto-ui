@@ -41,15 +41,14 @@ function generateLeto(data, newRes){
     currentStep = 0;
     nextStep(data);
     res = newRes;
+    console.log('generate Leto...');
 }
 
 function getVariablesContent(variablesData){
-    //console.log(variablesData);
     var content =  '';
 
     variablesData.forEach(function(part) {
         part.values.forEach(function(variable){
-            //console.log(variable);
             content += `${variable.name}: ${variable.value} \n`;
         })
         content += `\n`;
@@ -119,7 +118,11 @@ function getVariablesContent(variablesData){
     content += `$lightModeBgColor: $colorWhite\n`;
     content += `$darkModeColor: $colorWhite\n`;
     content += `$darkModeBgColor: $colorBlack\n`;
-    //console.log(content);
+    content += `\n`;
+    content += `$lightModeColorDM: $colorBlack\n`;
+    content += `$lightModeBgColorDM: $colorWhite\n`;
+    content += `$darkModeColorDM: $colorWhite\n`;
+    content += `$darkModeBgColorDM: $colorBlack\n`;
     return content;
 }
 
@@ -354,9 +357,8 @@ function nextStep(data){
 }
 
 function checkGeneratingSteps(){
-    console.log(currentStep, generatingSteps)
     if(currentStep == generatingSteps){
-        console.log('All Leto files created');
+        console.log('All Leto files created!');
         res.set("Content-Type", "application/json");
         res.status(201).send({files: fileData}).end();
         
@@ -381,7 +383,6 @@ function createVariablesSASS(data, callback){
     fs.appendFile(__dirname+'/src/imports/_variables.sass', variables, function (err) {
         if (err) throw err;
         fileData.variables = variables;
-        console.log('_variables.sass saved!');
         callback();
     });
 }
@@ -390,7 +391,6 @@ function createElementsVariablesSASS(data, callback){
     var elementsVariables = getElementsVariablesContent(data.elements);
     fs.appendFile(__dirname+'/src/imports/_elements-variables.sass', elementsVariables, function (err) {
         if (err) throw err;
-        console.log('_elements-variables.sass saved!');
         callback();
     });
 }
@@ -399,7 +399,6 @@ function createWhiteListsSASS(data, callback){
     var presetAndMQ = getPresetsAndMQContent(data.presetAndMQ);
     fs.appendFile(__dirname+'/src/imports/_white-lists.sass', presetAndMQ, function (err) {
         if (err) throw err;
-        console.log('_white-lists.sass saved!');
         callback();
     });
 }
@@ -412,7 +411,6 @@ function createLetoCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto.css'), result.css, function (err) {
             if (err) throw err;
             fileData.leto = result.css.toString();
-            console.log('leto.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -428,7 +426,6 @@ function createLetoGeneralCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-general.css'), result.css, function (err) {
             if (err) throw err;
             fileData.general = result.css.toString();
-            console.log('leto-general.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -443,7 +440,6 @@ function createLetoElementsCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-elements.css'), result.css, function (err) {
             if (err) throw err;
             fileData.elements = result.css.toString();
-            console.log('leto-elements.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -458,7 +454,6 @@ function createLetoLayoutCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-layout.css'), result.css, function (err) {
             if (err) throw err;
             fileData.layout = result.css.toString();
-            console.log('leto-layout.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -473,7 +468,6 @@ function createLetoTransformerCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-transformer.css'), result.css, function (err) {
             if (err) throw err;
             fileData.transformer = result.css.toString();
-            console.log('leto-transformer.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -489,7 +483,6 @@ function createLetoMinCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto.min.css'), result.css, function (err) {
             if (err) throw err;
             fileData.letoMin = result.css.toString();
-            console.log('leto.min.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -505,7 +498,6 @@ function createLetoGeneralMinCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-general.min.css'), result.css, function (err) {
             if (err) throw err;
             fileData.generalMin = result.css.toString();
-            console.log('leto-general.min.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -521,7 +513,6 @@ function createLetoElementsMinCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-elements.min.css'), result.css, function (err) {
             if (err) throw err;
             fileData.elementsMin = result.css.toString();
-            console.log('leto-elements.min.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -537,7 +528,6 @@ function createLetoLayoutMinCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-layout.min.css'), result.css, function (err) {
             if (err) throw err;
             fileData.layoutMin = result.css.toString();
-            console.log('leto-layout.min.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })
@@ -553,7 +543,6 @@ function createLetoTransformerMinCSS(){
         fs.appendFile(path.resolve(__dirname, '../dist/leto-transformer.min.css'), result.css, function (err) {
             if (err) throw err;
             fileData.transformerMin = result.css.toString();
-            console.log('leto-transformer.min.css saved!');
             currentStep++;
             checkGeneratingSteps();
         })

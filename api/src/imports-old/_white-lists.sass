@@ -1,16 +1,9 @@
-$elementMQList: 'bubble', 'card', 'button', 'badge', 'pile'
-$elementPresetsList: 'bubble', 'card', 'button', 'badge', 'table', 'pile'
+$elementPresetsList: 'bubble', 'card', 'button', 'badge', 'pile'
 $layoutMQList: 'flexArea'
 $transformerMQList: 'margin', 'padding'
    
 @function checkElementMQList($value)
-    $found: false
-
-    @each $entry in $elementMQList
-        @if $value == $entry
-            $found: true
-
-    @return $found
+    @return true
 
 @function checkElementPresetsList($value)
     $found: false

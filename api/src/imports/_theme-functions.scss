@@ -1,0 +1,110 @@
+@import '_variables.sass';
+$colorsLM: (
+    'black': $colorBlack,
+    'lightBlack': $colorLightBlack,
+    'darkerGrey': $colorDarkerGrey,
+    'darkGrey': $colorDarkGrey,
+    'grey': $colorGrey,
+    'lightGrey': $colorLightGrey,
+    'lighterGrey': $colorLighterGrey,
+    'darkWhite': $colorDarkWhite,
+    'white': $colorWhite,
+    'lightYellow': $colorLightYellow,
+    'yellow': $colorYellow,
+    'darkYellow': $colorDarkYellow,
+    'lightOrange': $colorLightOrange,
+    'orange': $colorOrange,
+    'darkOrange': $colorDarkOrange,
+    'lightRed': $colorLightRed,
+    'red': $colorRed,
+    'darkRed': $colorDarkRed,
+    'lightPurple': $colorLightPurple,
+    'purple': $colorPurple, 
+    'darkPurple': $colorDarkPurple,
+    'lightBlue': $colorLightBlue,
+    'blue': $colorBlue,
+    'darkBlue': $colorDarkBlue,
+    'lightMint': $colorLightMint,
+    'mint': $colorMint,
+    'darkMint': $colorDarkMint,
+    'lightGreen': $colorLightGreen,
+    'green': $colorGreen,
+    'darkGreen': $colorDarkGreen, 
+);
+
+$colorsDM: (
+    'black': $colorBlackDM,
+    'lightBlack': $colorLightBlackDM,
+    'darkerGrey': $colorDarkerGreyDM,
+    'darkGrey': $colorDarkGreyDM,
+    'grey': $colorGreyDM,
+    'lightGrey': $colorLightGreyDM,
+    'lighterGrey': $colorLighterGreyDM,
+    'darkWhite': $colorDarkWhiteDM,
+    'white': $colorWhiteDM,
+    'lightYellow': $colorLightYellowDM,
+    'yellow': $colorYellowDM,
+    'darkYellow': $colorDarkYellowDM,
+    'lightOrange': $colorLightOrangeDM,
+    'orange': $colorOrangeDM,
+    'darkOrange': $colorDarkOrangeDM,
+    'lightRed': $colorLightRedDM,
+    'red': $colorRedDM,
+    'darkRed': $colorDarkRedDM,
+    'lightPurple': $colorLightPurpleDM,
+    'purple': $colorPurpleDM, 
+    'darkPurple': $colorDarkPurpleDM,
+    'lightBlue': $colorLightBlueDM,
+    'blue': $colorBlueDM,
+    'darkBlue': $colorDarkBlueDM,
+    'lightMint': $colorLightMintDM,
+    'mint': $colorMintDM,
+    'darkMint': $colorDarkMintDM,
+    'lightGreen': $colorLightGreenDM,
+    'green': $colorGreenDM,
+    'darkGreen': $colorDarkGreenDM, 
+);
+
+$themes: (
+    '': (
+        bg: $lightModeBgColor,
+        color: $lightModeColor,
+        invertedBg: $darkModeBgColor,
+        invertedColor: $darkModeColor,
+    ),
+    '-dark': (
+        bg: $darkModeBgColorDM, 
+        color: $darkModeColorDM,
+        invertedBg: $lightModeBgColorDM,
+        invertedColor: $lightModeColorDM,
+    ),
+);
+
+@mixin themed() {
+    @each $theme, $map in $themes {
+        .leto-frame#{$theme} & {
+            $theme-map: () !global;
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), '#{$key}'); 
+                $theme-map: map-merge($theme-map, ($key: $value)) !global;
+            }
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);  
+}
+
+@mixin themedColor($color, $attributeName){
+    .leto-frame-dark & {
+        @each $colorKey, $compareColor in $colorsLM {
+            @if $color == $compareColor {
+                $value: map-get($colorsDM, '#{$colorKey}');
+                #{$attributeName}: $value; 
+            }
+        }
+    }
+}

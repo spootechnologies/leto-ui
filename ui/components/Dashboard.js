@@ -28,6 +28,22 @@ var Dashboard = {
                     console.log(error);
                 });
         },
+        closeUI: function(){
+            fetch('http://localhost:3000/exit', {
+                method: 'POST',
+                mode: 'no-cors',
+                body: null
+            })
+            .then(function(response) {
+                console.log('API closed!');
+                alert()
+                window.close();
+            })
+            .catch(function(error) {
+                console.log("API couldn't be closed!");
+                window.close();
+            });
+        },
         download: function(filename, data) {
             var element = document.createElement('a');
             element.setAttribute('href', 'data:application/zip;base64,' + data);
@@ -178,7 +194,7 @@ var Dashboard = {
                 <h2 class="leto-text-light leto-text-center">Download...</h2>
                 <div class="leto-group">
                     <div @click="letoGenerated = false" class="leto-button leto-border-darker-grey leto-min-width-lg">Back</div>
-                    <div @click="function(){alert()}" class="leto-button leto-border-black leto-min-width-lg">Close UI</div>
+                    <div @click="closeUI()" class="leto-button leto-border-black leto-min-width-lg">Close UI</div>
                 </div>
             </div>
         </div>

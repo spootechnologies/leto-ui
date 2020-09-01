@@ -19,7 +19,12 @@ function startAPI(){
 
     app.post('/', function(req, res){
         generator.generateLeto(req.body, res); 
+    })
 
+    app.post('/exit', function(req, res){
+        console.log('API closed!');
+        res.status(200).end();
+        process.exit();
     })
 
     app.listen(3000, function(){
