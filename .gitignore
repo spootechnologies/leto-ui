@@ -1,0 +1,11 @@
+# Installed dependencies
+node_modules/
+*/leto-elements.css
+*/leto-elements.min.css
+*/leto-general.css
+*/leto-general.min.css
+*/leto-layout.css
+*/leto-layout.min.css
+*/leto-transformer.css
+*/leto-transformer.min.css
+*/leto.css

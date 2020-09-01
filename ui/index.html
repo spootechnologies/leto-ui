@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>LETO Generator</title>
+    <meta name="author" content="spoo">
+    <meta name="description" content="LETO Generator">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/vendor/leto.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/vendor/jszip.min.js"></script>
+</head>
+
+<body>
+    <div id="app" class="leto-frame">
+        <nav-edge></nav-edge>
+        <div class="leto-container leto-half">
+            <router-view></router-view>
+            <step-bar></step-bar>
+        </div>
+    </div>
+    <script src="components/NavEdge.js"></script>
+    <script src="components/StepBar.js"></script>
+    <script src="components/Dashboard.js"></script>
+    <script src="js/routing.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

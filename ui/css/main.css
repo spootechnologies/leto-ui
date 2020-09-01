@@ -1,0 +1,25 @@
+.label {
+  position: relative;
+}
+
+.label:after {
+  content: attr(data-label);
+  position: absolute;
+  background-color: #303030;
+  color: #fdfdfd;
+  font-size: 12px;
+  white-space: pre;
+  top: calc(100% + 10px);
+  padding: 8px;
+  border-radius: 6px;
+  -webkit-transition: opacity 0.1s ease-in-out 0.5s;
+  transition: opacity 0.1s ease-in-out 0.5s;
+  z-index: 0;
+  display: none;
+}
+
+.label:hover:after {
+  display: block;
+  z-index: 1;
+}
+/*# sourceMappingURL=main.css.map */

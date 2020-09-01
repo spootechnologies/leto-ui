@@ -1,0 +1,34 @@
+$elementPresetsList: 'bubble', 'card', 'button', 'badge', 'pile'
+$layoutMQList: 'flexArea'
+$transformerMQList: 'margin', 'padding'
+   
+@function checkElementMQList($value)
+    @return true
+
+@function checkElementPresetsList($value)
+    $found: false
+
+    @each $entry in $elementPresetsList
+        @if $value == $entry
+            $found: true
+
+    @return $found
+
+@function checkLayoutMQList($value)
+    $found: false
+
+    @each $entry in $layoutMQList
+        @if $value == $entry
+            $found: true
+
+    @return $found
+
+@function checkTransformerMQList($value)
+    $found: false
+
+    @each $entry in $transformerMQList
+        @if $value == $entry
+            $found: true
+
+    @return $found
+    

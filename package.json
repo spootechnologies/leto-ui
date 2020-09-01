@@ -1,0 +1,35 @@
+{
+  "name": "@spootechnologies/leto-cli",
+  "version": "0.0.22",
+  "description": "Leto CSS Framework CLI",
+  "main": "cli.js",
+  "bin": {
+    "leto-cli": "./cli.js"
+  },
+  "scripts": {},
+  "homepage": "https://spoo.io",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/spootechnologies/leto-ui"
+  }
+  "keywords": [
+    "spoo",
+    "leto",
+    "css",
+    "framework",
+    "cli"
+  ],
+  "author": "Benjamin Lotterer",
+  "license": "MIT",
+  "engines": {
+    "node": ">10.15.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "commander": "^4.1.0",
+    "express": "^4.17.1",
+    "node-sass": "^4.13.1",
+    "open": "^7.0.1"
+  },
+  "devDependencies": {}
+}
