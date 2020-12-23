@@ -6,6 +6,16 @@ var Dashboard = {
         };
     },
     methods: {
+        addData: function(prop, subStepIndex){
+            var self = this;
+
+            global.letoData[prop][subStepIndex].values.push({name: '', value: ''})
+        },
+        changeData: function(prop, subStepIndex, valueIndex, valuesProp, value){
+            var self = this;
+            global.letoData[prop][subStepIndex].values[valueIndex][valuesProp] = value;
+            console.log(global.letoData[prop][subStepIndex])
+        },
         createLetoFile: function() {
             var self = this;
             fetch('http://localhost:3000', {
@@ -36,7 +46,6 @@ var Dashboard = {
             })
             .then(function(response) {
                 console.log('API closed!');
-                alert()
                 window.close();
             })
             .catch(function(error) {
@@ -128,7 +137,22 @@ var Dashboard = {
                     </div>
                 </div>
                 <div v-if="global.step == 2" class="leto-overflow-y-auto" style="width: 100%">
-                    <h2 class="leto-text-light leto-text-center">No Custom Variables available right now.</h2>
+                    <div v-if="global.subStep-1 == subStepIndex" v-for="(subStep, subStepIndex) in global.letoData.customVariables" >
+                        <div class="leto-group leto-all-center">
+                            <h2 class="leto-text-light leto-text-center">{{subStep.name}}</h2>
+                            <div v-if="subStep.info" class="leto-bubble-xs leto-border-darker-grey leto-click leto-border-black label" :data-label="subStep.info">?</div>
+                        </div>
+                        <div class="leto-overflow-y-auto leto-overflow-x-hidden" style="max-height: 60vh">
+                            <div v-for="(value, valueIndex) in subStep.values" class="leto-group leto-vertical-center leto-mv-sm" style="width: 100%">
+                                <label v-if="subStepIndex == 1">{{value.name}}</label>
+                                <input v-else v-model="value.name" @change="changeData('customVariables', subStepIndex+1, valueIndex, 'name', value.name)" class="leto-input leto-mv-none leto-border-darker-grey" type="text" :placeholder="subStep.name">
+                                <input v-model="value.value" class="leto-input leto-mv-none leto-border-darker-grey leto-right" type="color">
+                            </div>
+                            <div v-if="subStepIndex == 0" class="leto-group leto-horizontal-center"> 
+                                <div class="leto-bubble-sm leto-border-black leto-text-xl leto-click" @click="addData('customVariables', subStepIndex), addData('customVariables', subStepIndex+1)">+</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div v-if="global.step == 3" style="width: 100%">
                     <div v-if="global.subStep-1 == subStepIndex" v-for="(subStep, subStepIndex) in global.letoData.elements" >
@@ -172,7 +196,8 @@ var Dashboard = {
                         <div class="leto-overflow-y-auto leto-overflow-x-hidden" style="max-height: 60vh">
                             <div v-for="value in subStep.values" class="leto-group leto-vertical-center leto-mv-sm" style="width: 100%"> 
                                 <label>{{value.name}}</label>
-                                <input v-model="value.value" class="leto-input-sm leto-mv-none leto-right" style="margin-right: 32px" type="checkbox" :placeholder="subStep.name">
+                                <input v-if="global.subStep < 2" v-model="value.value" class="leto-input leto-mv-none leto-right" style="margin-right: 32px" type="text" :placeholder="subStep.name">
+                                <input v-else v-model="value.value" class="leto-input-sm leto-mv-none leto-right" style="margin-right: 32px" type="checkbox" :placeholder="subStep.name">
                                 <div v-if="value.allowed" class="leto-bubble-xs leto-border-darker-grey leto-click leto-border-black label" :data-label="value.allowed">✔</div>
                             </div>
                         </div>

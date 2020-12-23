@@ -22,6 +22,7 @@ var fileData = {
 };
 var paths = [
     __dirname+'/src/imports/_variables.sass',
+    __dirname+'/src/imports/_colors-functions.scss',
     __dirname+'/src/imports/_elements-variables.sass',
     __dirname+'/src/imports/_white-lists.sass',
     path.resolve(__dirname, '../dist/leto.css'),
@@ -44,8 +45,10 @@ function generateLeto(data, newRes){
     console.log('generate Leto...');
 }
 
-function getVariablesContent(variablesData){
+function getVariablesContent(variablesData, classPrefix){
     var content =  '';
+
+    if(classPrefix.value) content += `${classPrefix.name}: ${classPrefix.value} \n`;
 
     variablesData.forEach(function(part) {
         part.values.forEach(function(variable){
@@ -123,6 +126,160 @@ function getVariablesContent(variablesData){
     content += `$lightModeBgColorDM: $colorWhite\n`;
     content += `$darkModeColorDM: $colorWhite\n`;
     content += `$darkModeBgColorDM: $colorBlack\n`;
+    return content;
+}
+
+function getColorsFunctionsContent(customVariablesData){
+    var content =  '';
+
+    content += `
+@import '_variables.sass';
+@import '_transformer-mixins.sass';
+
+$colors: (
+    '': (
+        'black': $colorBlack,
+        'light-black': $colorLightBlack,
+        'darker-grey': $colorDarkerGrey,
+        'dark-grey': $colorDarkGrey,
+        'grey': $colorGrey,
+        'light-grey': $colorLightGrey,
+        'lighter-grey': $colorLighterGrey,
+        'dark-white': $colorDarkWhite,
+        'white': $colorWhite,
+        'light-yellow': $colorLightYellow,
+        'yellow': $colorYellow,
+        'dark-yellow': $colorDarkYellow,
+        'light-orange': $colorLightOrange,
+        'orange': $colorOrange,
+        'dark-orange': $colorDarkOrange,
+        'light-red': $colorLightRed,
+        'red': $colorRed,
+        'dark-red': $colorDarkRed,
+        'light-purple': $colorLightPurple,
+        'purple': $colorPurple,
+        'dark-purple': $colorDarkPurple,
+        'light-blue': $colorLightBlue,
+        'blue': $colorBlue,
+        'dark-blue': $colorDarkBlue,
+        'light-mint': $colorLightMint,
+        'mint': $colorMint,
+        'dark-mint': $colorDarkMint,
+        'light-green': $colorLightGreen,
+        'green': $colorGreen,
+        'dark-green': $colorDarkGreen,         
+    `
+
+    customVariablesData[0].values.forEach(function(variable){
+        content += `        '${variable.name}': ${variable.value} \n`;
+    })
+
+    content += `
+    ),
+    '-dark': (
+        'black': $colorBlackDM,
+        'light-black': $colorLightBlackDM,
+        'darker-grey': $colorDarkerGreyDM,
+        'dark-grey': $colorDarkGreyDM,
+        'grey': $colorGreyDM,
+        'light-grey': $colorLightGreyDM,
+        'lighter-grey': $colorLighterGreyDM,
+        'dark-white': $colorDarkWhiteDM,
+        'white': $colorWhiteDM,
+        'light-yellow': $colorLightYellowDM,
+        'yellow': $colorYellowDM,
+        'dark-yellow': $colorDarkYellowDM,
+        'light-orange': $colorLightOrangeDM,
+        'orange': $colorOrangeDM,
+        'dark-orange': $colorDarkOrangeDM,
+        'light-red': $colorLightRedDM,
+        'red': $colorRedDM,
+        'dark-red': $colorDarkRedDM,
+        'light-purple': $colorLightPurpleDM,
+        'purple': $colorPurpleDM,
+        'dark-purple': $colorDarkPurpleDM,
+        'light-blue': $colorLightBlueDM,
+        'blue': $colorBlueDM,
+        'dark-blue': $colorDarkBlueDM,
+        'light-mint': $colorLightMintDM,
+        'mint': $colorMintDM,
+        'dark-mint': $colorDarkMintDM,
+        'light-green': $colorLightGreenDM,
+        'green': $colorGreenDM,
+        'dark-green': $colorDarkGreenDM,          
+    `
+
+    customVariablesData[1].values.forEach(function(variable){
+        content += `    '${variable.name}': ${variable.value}, \n`;
+    })
+
+    content += `
+    )
+);
+\n`
+
+    content += `
+@mixin colors($type, $attributeName){
+    @each $theme, $map in $colors {
+        @each $color, $cMap in $map {
+            @if $theme == '' {
+                .#{$classPrefix}frame#{$theme} &-#{$color}, .#{$classPrefix}frame#{$theme} &-#{$color}-themed {
+                    $value: map-get(map-get($colors, $theme), '#{$color}');
+                    @include transformerConstructor($type){
+                        #{$attributeName}: $value;     
+                    }
+                }
+            }
+            @if $theme == '-dark' {
+                .#{$classPrefix}frame#{$theme} &-#{$color}, .#{$classPrefix}frame#{$theme} &-#{$color}-themed {
+                    $value: map-get(map-get($colors, $theme), '#{$color}');
+                    @include transformerConstructor($type){
+                        #{$attributeName}: $value;     
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin colorsThemeModes($type, $attributeName){
+    @each $theme, $map in $colors {
+        @each $color, $cMap in $map {
+            @if $theme == '' {
+                .#{$classPrefix}frame#{$theme} &-#{$color}-lm{
+                    $value: map-get(map-get($colors, $theme), '#{$color}');
+                    @include transformerConstructor($type){
+                        #{$attributeName}: $value;     
+                    }
+                }
+            }
+            @if $theme == '-dark' {
+                .#{$classPrefix}frame#{$theme} &-#{$color}-dm{
+                    $value: map-get(map-get($colors, $theme), '#{$color}');
+                    @include transformerConstructor($type){
+                        #{$attributeName}: $value;     
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin colorsThemed($type, $class){
+    @each $theme, $map in $colors {
+        @each $color, $cMap in $map {
+            @if $theme == '' {
+                [class*='#{$class}-#{$color}-themed']{
+                    $value: map-get(map-get($colors, $theme), '#{$color}');
+                    @include transformerColorConstructor($type, $value);
+                }
+            }
+            @if $theme == '-dark' {
+
+            }
+        }
+    }
+}\n`;
     return content;
 }
 
@@ -290,65 +447,71 @@ function nextStep(data){
     }
     if(generatingStep == 1){
         createFile(paths[1], function(){
+            createColorsFunctionsSCSS(data, function(){ nextStep(data) });
+        })
+
+    }
+    if(generatingStep == 2){
+        createFile(paths[2], function(){
             createElementsVariablesSASS(data, function(){ nextStep(data) });
         })
     }
-    if(generatingStep == 2){
+    if(generatingStep == 3){
 
-        createFile(paths[2], function(){
+        createFile(paths[3], function(){
             createWhiteListsSASS(data, function(){ nextStep(data) });
         })     
     }   
-    if(generatingStep == 3){
-        if(!data.generateSettings[0].values[0].value){
-            if(!data.generateSettings[1].values[0].value){
+    if(generatingStep == 4){
+        if(!data.generateSettings[1].values[0].value){
+            if(!data.generateSettings[2].values[0].value){
                 generatingSteps = 1;
             } else {
                 generatingSteps = 2;
             }
 
-            createFile(paths[3], function(){
+            createFile(paths[4], function(){
                 createLetoCSS();
             })
 
-            if(data.generateSettings[1].values[0].value){
+            if(data.generateSettings[2].values[0].value){
                 generatingSteps = 2;
-                createFile(paths[4], function(){
+                createFile(paths[5], function(){
                     createLetoMinCSS();
                 })       
             } 
         } else {
-            if(!data.generateSettings[1].values[0].value){
+            if(!data.generateSettings[2].values[0].value){
                 generatingSteps = 4;
             } else {
                 generatingSteps = 8;
             }
 
-            createFile(paths[5], function(){
+            createFile(paths[6], function(){
                 createLetoGeneralCSS();
             })
-            createFile(paths[6], function(){
+            createFile(paths[7], function(){
                 createLetoElementsCSS();
             })
-            createFile(paths[7], function(){
+            createFile(paths[8], function(){
                 createLetoLayoutCSS();
             })
-            createFile(paths[8], function(){
+            createFile(paths[9], function(){
                 createLetoTransformerCSS();
             })
 
-            if(data.generateSettings[1].values[0].value){
+            if(data.generateSettings[2].values[0].value){
                 generatingSteps = 8;
-                createFile(paths[5], function(){
+                createFile(paths[6], function(){
                     createLetoGeneralMinCSS();
                 })
-                createFile(paths[6], function(){
+                createFile(paths[7], function(){
                     createLetoElementsMinCSS();
                 })
-                createFile(paths[7], function(){
+                createFile(paths[8], function(){
                     createLetoLayoutMinCSS();
                 })
-                createFile(paths[8], function(){
+                createFile(paths[9], function(){
                     createLetoTransformerMinCSS();
                 })
             }
@@ -379,10 +542,19 @@ function createFile(filePath, callback){
 }
 
 function createVariablesSASS(data, callback){
-    var variables = getVariablesContent(data.variables);
+    var variables = getVariablesContent(data.variables, data.generateSettings[0].values[0]);
     fs.appendFile(__dirname+'/src/imports/_variables.sass', variables, function (err) {
         if (err) throw err;
         fileData.variables = variables;
+        callback();
+    });
+}
+
+
+function createColorsFunctionsSCSS(data, callback){
+    var elementsVariables = getColorsFunctionsContent(data.customVariables);
+    fs.appendFile(__dirname+'/src/imports/_colors-functions.scss', elementsVariables, function (err) {
+        if (err) throw err;
         callback();
     });
 }

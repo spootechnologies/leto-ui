@@ -1,3 +1,4 @@
+
 @import '_variables.sass';
 @import '_transformer-mixins.sass';
 
@@ -32,7 +33,9 @@ $colors: (
         'dark-mint': $colorDarkMint,
         'light-green': $colorLightGreen,
         'green': $colorGreen,
-        'dark-green': $colorDarkGreen,        
+        'dark-green': $colorDarkGreen,         
+            'test': #ff00a2 
+
     ),
     '-dark': (
         'black': $colorBlackDM,
@@ -64,15 +67,18 @@ $colors: (
         'dark-mint': $colorDarkMintDM,
         'light-green': $colorLightGreenDM,
         'green': $colorGreenDM,
-        'dark-green': $colorDarkGreenDM,        
+        'dark-green': $colorDarkGreenDM,          
+        'test': #a6ff00, 
+
     )
-); 
+);
+
 
 @mixin colors($type, $attributeName){
     @each $theme, $map in $colors {
         @each $color, $cMap in $map {
             @if $theme == '' {
-                .leto-frame#{$theme} &-#{$color}, .leto-frame#{$theme} &-#{$color}-themed {
+                .#{$classPrefix}frame#{$theme} &-#{$color}, .#{$classPrefix}frame#{$theme} &-#{$color}-themed {
                     $value: map-get(map-get($colors, $theme), '#{$color}');
                     @include transformerConstructor($type){
                         #{$attributeName}: $value;     
@@ -80,7 +86,7 @@ $colors: (
                 }
             }
             @if $theme == '-dark' {
-                .leto-frame#{$theme} &-#{$color}, .leto-frame#{$theme} &-#{$color}-themed {
+                .#{$classPrefix}frame#{$theme} &-#{$color}, .#{$classPrefix}frame#{$theme} &-#{$color}-themed {
                     $value: map-get(map-get($colors, $theme), '#{$color}');
                     @include transformerConstructor($type){
                         #{$attributeName}: $value;     
@@ -95,7 +101,7 @@ $colors: (
     @each $theme, $map in $colors {
         @each $color, $cMap in $map {
             @if $theme == '' {
-                .leto-frame#{$theme} &-#{$color}-lm{
+                .#{$classPrefix}frame#{$theme} &-#{$color}-lm{
                     $value: map-get(map-get($colors, $theme), '#{$color}');
                     @include transformerConstructor($type){
                         #{$attributeName}: $value;     
@@ -103,7 +109,7 @@ $colors: (
                 }
             }
             @if $theme == '-dark' {
-                .leto-frame#{$theme} &-#{$color}-dm{
+                .#{$classPrefix}frame#{$theme} &-#{$color}-dm{
                     $value: map-get(map-get($colors, $theme), '#{$color}');
                     @include transformerConstructor($type){
                         #{$attributeName}: $value;     

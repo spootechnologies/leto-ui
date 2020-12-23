@@ -124,55 +124,55 @@ var global = new Vue({
                             },
                             {
                                 name: '$colorGrey',
-                                value: '#e1e1e1',
+                                value: '#cccccc',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorBlack',
-                                value: '#303030',
+                                value: '#333333',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorYellow',
-                                value: '#ffff73',
+                                value: '#f2e76d',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorOrange',
-                                value: '#ffac5a',
+                                value: '#f29655',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorRed',
-                                value: '#ff6666',
+                                value: '#f2616d',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorPurple',
-                                value: '#ca7fff',
+                                value: '#c079f2',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorBlue',
-                                value: '#738aff',
+                                value: '#6d83f2',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorMint',
-                                value: '#59ffc8',
+                                value: '#55f2cb',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorGreen',
-                                value: '#8aff80',
+                                value: '#79f297',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             }
@@ -184,37 +184,37 @@ var global = new Vue({
                         values: [
                             {
                                 name: '$colorWhiteDM',
-                                value: '#fdfdfd',
+                                value: '#e6e6e6',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorGreyDM',
-                                value: '#e1e1e1',
+                                value: '#808080',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorBlackDM',
-                                value: '#303030',
+                                value: '#262626',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorYellowDM',
-                                value: '#ffff73',
+                                value: '#fff673',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorOrangeDM',
-                                value: '#ffac5a',
+                                value: '#ff9e59',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorRedDM',
-                                value: '#ff6666',
+                                value: '#ff6673',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
@@ -232,13 +232,13 @@ var global = new Vue({
                             },
                             {
                                 name: '$colorMintDM',
-                                value: '#59ffc8',
+                                value: '#59ffd6',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             },
                             {
                                 name: '$colorGreenDM',
-                                value: '#8aff80',
+                                value: '#7fff9f',
                                 allowed: [8, 9],
                                 inputType: 'color'
                             }
@@ -372,7 +372,22 @@ var global = new Vue({
                         ]
                     }
                 ],
-                customVariables: [{}],
+                customVariables: [
+                    {
+                        name: 'Colors',
+                        info: 'Add additional colors',
+                        values: [
+
+                        ]
+                    },
+                    {
+                        name: 'Dark Mode Colors',
+                        info: 'Add additional colors',
+                        values: [
+
+                        ]
+                    },
+                ],
                 elements: [
                     {
                         name: 'Bubble',
@@ -1251,6 +1266,15 @@ var global = new Vue({
                     }
                 ],
                 generateSettings: [
+                    {
+                        name: 'Class prefix',
+                        values: [
+                            {
+                                name: '$classPrefix',
+                                value: ''
+                            }
+                        ]
+                    },
                     {
                         name: 'Generated Leto file type',
                         values: [
