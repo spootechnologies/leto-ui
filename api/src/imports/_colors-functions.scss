@@ -34,7 +34,10 @@ $colors: (
         'light-green': $colorLightGreen,
         'green': $colorGreen,
         'dark-green': $colorDarkGreen,         
-            'test': #ff00a2 
+            'primary': #ff005a, 
+        'secondary': #00ccff, 
+        'tertiary ': #00ffde, 
+        'primary-backdrop': #0d0e1f, 
 
     ),
     '-dark': (
@@ -68,7 +71,10 @@ $colors: (
         'light-green': $colorLightGreenDM,
         'green': $colorGreenDM,
         'dark-green': $colorDarkGreenDM,          
-        'test': #a6ff00, 
+        'primary': #ff005a, 
+    'secondary': #00ccff, 
+    'tertiary ': #00ffde, 
+    'primary-backdrop': #0d0e1f, 
 
     )
 );

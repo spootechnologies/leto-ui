@@ -49,6 +49,7 @@ function getVariablesContent(variablesData, classPrefix){
     var content =  '';
 
     if(classPrefix.value) content += `${classPrefix.name}: ${classPrefix.value} \n`;
+    else content += `${classPrefix.name}: '' \n`;
 
     variablesData.forEach(function(part) {
         part.values.forEach(function(variable){
@@ -171,7 +172,7 @@ $colors: (
     `
 
     customVariablesData[0].values.forEach(function(variable){
-        content += `        '${variable.name}': ${variable.value} \n`;
+        content += `        '${variable.name}': ${variable.value}, \n`;
     })
 
     content += `
